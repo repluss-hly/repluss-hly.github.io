@@ -31,13 +31,25 @@
   
   
   <entry>
-    <title>未命名</title>
-    <link href="/2026/06/09/%E6%9C%AA%E5%91%BD%E5%90%8D/"/>
-    <url>/2026/06/09/%E6%9C%AA%E5%91%BD%E5%90%8D/</url>
+    <title>随笔</title>
+    <link href="/2026/06/09/%E9%9A%8F%E7%AC%94/"/>
+    <url>/2026/06/09/%E9%9A%8F%E7%AC%94/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>hexo g -d</p>]]></content>
     
     
+    <categories>
+      
+      <category>随笔</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>随笔</tag>
+      
+    </tags>
     
   </entry>
   
