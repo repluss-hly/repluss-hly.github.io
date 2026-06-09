@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>MIT 6.5840 分布式系统</title>
+    <link href="/2026/06/09/mit6.5840/"/>
+    <url>/2026/06/09/mit6.5840/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://go.dev/tour/welcome/1">https://go.dev/tour/welcome/1</a><br>mit官方go语言入门网站</p><h1 id="Lab1"><a href="#Lab1" class="headerlink" title="Lab1"></a>Lab1</h1><p>&#x3D;&#x3D;MapReduce分片&#x3D;&#x3D;<br>主要目的就是构建一个rpc通信的并行处理文件系统，这次用的是单词拆分<br>具体的map，reduce实现先不深究</p><ul><li>map:读入文件后，将其用拆分成键值对形式，<code>word string:num string </code>,随后调用ihash函数对每个word进行哈希转换成唯一的id，根据id和nreduce进行取余决定放在哪个桶里，最后命名成mr-tmp-mapid-reduceid。这样做的好处就是可以将同一单词放入同一临时文件。</li><li>reduce:这一部分的reduce相对简单，目的就是根据桶号来执行，最后每个reduce线程输出的都是独一无二的单词<br><strong>&#x3D;&#x3D;注意！！！&#x3D;&#x3D;</strong><br>在map过程中，要原子性写入<br>另需补课的内容:rpc调用，map，reduce实现原理<br><img src="/../images/whiteboard_exported_image.png"></li></ul><h1 id="lab2"><a href="#lab2" class="headerlink" title="lab2"></a>lab2</h1><h1 id="lab3"><a href="#lab3" class="headerlink" title="lab3"></a>lab3</h1><p>#raft<br>可视化</p><p><a href="http://thesecretlivesofdata.com/raft/">http://thesecretlivesofdata.com/raft/</a></p><p>每个节点都有三种状态<br>follow-&gt;candidate-&gt;leader<br>所有的节点都从follow开始，如果听不到leader，那就有可能成为candidate<br>candidate向其他node请求投票</p><p>node回复投票结果<br>成为leader后，若client向其发送数据，则在leader本地增加条目<br>leader将新增条目复制到其他node<br>leader等待，若大部分node都写入了，则leader会保存<br>将保存信息给其他node<br>共识达成——–日志复制</p><p>领导人选举<br>选举超时时间：follow-&gt;candidate 的时间 150ms-300ms<br>follow-&gt;candidate后则开始新的选举<br>这时candidate会投票给自己，并向其他node发送请求投票的信息，并且其他node会重置选举超时时间<br>成为领导人之后，会向其他节点发送消息，时间间隔是心跳超时时间</p><p>当前领导人的任期直到follow停止接受心跳信号，并且超过选举超时时间，成为candidate</p><p>–分裂投票–<br>两个节点同时得到相同选票，则重新开始计算选举超时时间</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Go</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>分布式系统</tag>
+      
+      <tag>go</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>未命名</title>
+    <link href="/2026/06/09/%E6%9C%AA%E5%91%BD%E5%90%8D/"/>
+    <url>/2026/06/09/%E6%9C%AA%E5%91%BD%E5%90%8D/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
