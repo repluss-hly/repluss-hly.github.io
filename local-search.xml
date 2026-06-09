@@ -31,23 +31,23 @@
   
   
   <entry>
-    <title>随笔</title>
-    <link href="/2026/06/09/%E9%9A%8F%E7%AC%94/"/>
-    <url>/2026/06/09/%E9%9A%8F%E7%AC%94/</url>
+    <title>Hexo+Github静态pages博客部署</title>
+    <link href="/2026/06/09/Hexo+Github%E9%9D%99%E6%80%81pages%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2/"/>
+    <url>/2026/06/09/Hexo+Github%E9%9D%99%E6%80%81pages%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2/</url>
     
     <content type="html"><![CDATA[<p>hexo g -d</p>]]></content>
     
     
     <categories>
       
-      <category>随笔</category>
+      <category>杂项</category>
       
     </categories>
     
     
     <tags>
       
-      <tag>随笔</tag>
+      <tag>博客部署</tag>
       
     </tags>
     
