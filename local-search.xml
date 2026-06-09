@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Hexo+Github静态pages博客部署</title>
+    <link href="/2026/06/09/Hexo+Github%E9%9D%99%E6%80%81pages%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2/"/>
+    <url>/2026/06/09/Hexo+Github%E9%9D%99%E6%80%81pages%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2/</url>
+    
+    <content type="html"><![CDATA[<p>hexo g -d</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>杂项</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>博客部署</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>MIT 6.5840 分布式系统</title>
     <link href="/2026/06/09/mit6.5840/"/>
     <url>/2026/06/09/mit6.5840/</url>
@@ -23,31 +48,6 @@
       <tag>分布式系统</tag>
       
       <tag>go</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hexo+Github静态pages博客部署</title>
-    <link href="/2026/06/09/Hexo+Github%E9%9D%99%E6%80%81pages%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2/"/>
-    <url>/2026/06/09/Hexo+Github%E9%9D%99%E6%80%81pages%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2/</url>
-    
-    <content type="html"><![CDATA[<p>hexo g -d</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>杂项</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>博客部署</tag>
       
     </tags>
     
