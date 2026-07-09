@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/Pasted%20image%2020260610100826.png">
 <meta property="article:published_time" content="2026-06-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-10T10:25:37.813Z">
+<meta property="article:modified_time" content="2026-06-15T10:11:50.630Z">
 <meta property="article:author" content="YLH">
 <meta property="article:tag" content="MIT6-5840">
 <meta property="article:tag" content="go">
@@ -330,7 +330,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          2.6k 字
         
       </span>
     
@@ -341,7 +341,7 @@
         
         
         
-          11 分钟
+          22 分钟
         
       </span>
     
@@ -401,7 +401,7 @@
 <h3 id="RequestVote-RPC"><a href="#RequestVote-RPC" class="headerlink" title="RequestVote RPC"></a>RequestVote RPC</h3><p>和fig2一样，直接定义</p>
 <figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-keyword">type</span> <span class="hljs-type">RequestVoteArgs</span> struct &#123;<br>    <span class="hljs-type">Term</span> int <br>    <span class="hljs-type">CandidateId</span> int <br>&#125;<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-keyword">type</span> <span class="hljs-type">RequestVoteReply</span> struct &#123;<br><br>    <span class="hljs-type">Term</span> int<br><br>    <span class="hljs-type">VoteGranted</span> bool<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-keyword">type</span> <span class="hljs-type">RequestVoteReply</span> struct &#123;<br>    <span class="hljs-type">Term</span> int<br>    <span class="hljs-type">VoteGranted</span> bool<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>剩下的就是请求投票了<br>也非常简单，根据图中描述，candidate发送自己的任期和id供参考</p>
 <ul>
@@ -412,7 +412,11 @@
 <h3 id="心跳机制"><a href="#心跳机制" class="headerlink" title="心跳机制"></a>心跳机制</h3><p>这一块比较困难，一是因为根据原文很琐碎，二是没有给出具体的编码模板。<br>先实现通信结构</p>
 <figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-keyword">type</span> <span class="hljs-type">AppendEntriesArgs</span>&#123;<br>    <span class="hljs-type">Term</span>         int<br>    <span class="hljs-type">LeaderId</span>     int<br>    <span class="hljs-type">Entries</span>      []int<br>&#125;<br><span class="hljs-keyword">type</span> <span class="hljs-type">AppendEntriesReply</span>&#123;<br>    <span class="hljs-type">Term</span>    int<br>    <span class="hljs-type">Success</span> bool<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>goroutines</p>
+<p>心跳Rpc:<code>AppendEntries</code></p>
+<figure class="highlight plaintext"><figcaption><span>(rf *Raft) AppendEntries(args *AppendEntriesArgs,reply *AppendEntriesReply)&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs func"><br>    rf.mu.Lock()//发送心跳<br><br>    defer rf.mu.Unlock()<br><br>    if args.Term &lt; rf.currentTerm &#123;<br><br>        reply.Success = false<br><br>        reply.Term = rf.currentTerm<br><br>        return<br><br>    &#125;//leader任期小于follow任期，说明失效<br><br>    if rf.state == 1 &amp;&amp; rf.currentTerm == args.Term&#123;<br><br>        rf.state = 0<br><br>    &#125;//接受方为candicate则回退到follow<br><br>    if args.Term &gt; rf.currentTerm &#123;<br><br>        rf.currentTerm = args.Term<br><br>        if rf.state == 1 || rf.state == 2 &#123;<br><br>          rf.state = 0<br><br>       &#125;<br><br>    &#125;<br><br>    reply.Term = rf.currentTerm<br><br>    reply.Success = true<br><br>    rf.resetElectionTime()//成功接受心跳就重置选举时间<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>遍历节点调用发送心跳<code>speardAppendEntries</code></p>
+<figure class="highlight roboconf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs roboconf">func (rf *Raft) speardAppendEntries()&#123;<br><br>    <span class="hljs-attribute">rf.mu.Lock()</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">    term</span> := rf<span class="hljs-variable">.currentTerm</span><br><br>    leaderId := rf<span class="hljs-variable">.me</span><br><br>    rf<span class="hljs-variable">.resetHeartBeatTime</span>()<br><br>    rf<span class="hljs-variable">.mu</span><span class="hljs-variable">.Unlock</span>()<br><br>    for i := 0; <span class="hljs-attribute">i &lt; len(rf.peers) ;i ++&#123;</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">        if i == rf.me&#123;</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">            continue</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">        &#125;</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">                args</span> := AppendEntriesArgs&#123;<br><br>            Term : term,<br><br>            LeaderId: leaderId,<br><br>        &#125;<br><br>        go func(peer int)&#123;<br><br>            reply := AppendEntriesReply&#123;&#125;<br><br>            ok := rf<span class="hljs-variable">.sendAppendEntries</span>(peer, &amp;args, &amp;reply)<br><br>            if ok &#123;<br><br>          rf<span class="hljs-variable">.mu</span><span class="hljs-variable">.Lock</span>()<br><br>          defer rf<span class="hljs-variable">.mu</span><span class="hljs-variable">.Unlock</span>()<br><br>          if reply<span class="hljs-variable">.Term</span> &gt; rf<span class="hljs-variable">.currentTerm</span> &#123;<br><br>              rf<span class="hljs-variable">.currentTerm</span> = reply<span class="hljs-variable">.Term</span><br><br>              rf<span class="hljs-variable">.state</span> = 0<br><br>              rf<span class="hljs-variable">.votedFor</span> = -1<br><br>              rf<span class="hljs-variable">.resetElectionTime</span>()<br><br>                &#125;<br><br>            &#125;<br><br>        &#125;(i)<br><br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -506,6 +510,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2026/07/09/Gin/" title="Gin">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Gin</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
