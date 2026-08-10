@@ -19,22 +19,24 @@
   <meta name="author" content="YLH">
   <meta name="keywords" content="">
   
-    <meta name="description" content="(44 封私信 &#x2F; 80 条消息) Git 使用教程：最详细、最正宗手把手教学（万字长文） - 知乎">
+    <meta name="description" content="zap日志库 viper 项目分层理念 开发脚手架  zap地址：go.uber.org&#x2F;zap zap提供两种日志：Logger &amp;&amp; surger Logger Logger 12345678910111213141516171819202122232425262728293031323334353637package mainimport (	&quot;net&#x2F;http&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git操作">
-<meta property="og:url" content="http://example.com/2026/06/09/Git%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="开发组件">
+<meta property="og:url" content="http://example.com/2026/07/17/%E5%BC%80%E5%8F%91%E7%BB%84%E4%BB%B6/index.html">
 <meta property="og:site_name" content="YLH&#39;s blogs">
-<meta property="og:description" content="(44 封私信 &#x2F; 80 条消息) Git 使用教程：最详细、最正宗手把手教学（万字长文） - 知乎">
+<meta property="og:description" content="zap日志库 viper 项目分层理念 开发脚手架  zap地址：go.uber.org&#x2F;zap zap提供两种日志：Logger &amp;&amp; surger Logger Logger 12345678910111213141516171819202122232425262728293031323334353637package mainimport (	&quot;net&#x2F;http&amp;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-06-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-09T10:27:25.753Z">
+<meta property="article:published_time" content="2026-07-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-19T06:07:08.615Z">
 <meta property="article:author" content="YLH">
-<meta property="article:tag" content="Git">
+<meta property="article:tag" content="go">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="组件">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Git操作 - YLH&#39;s blogs</title>
+  <title>开发组件 - YLH&#39;s blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -303,7 +305,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Git操作"></span>
+            <span id="subtitle" data-typed-text="开发组件"></span>
           
         </div>
 
@@ -314,8 +316,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-06-09 00:00" pubdate>
-          2026年6月9日 凌晨
+        <time datetime="2026-07-17 00:00" pubdate>
+          2026年7月17日 凌晨
         </time>
       </span>
     
@@ -326,7 +328,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          47 字
+          1.7k 字
         
       </span>
     
@@ -337,7 +339,7 @@
         
         
         
-          1 分钟
+          15 分钟
         
       </span>
     
@@ -376,13 +378,34 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Git操作</h1>
+            <h1 id="seo-header">开发组件</h1>
             
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/615581394">(44 封私信 &#x2F; 80 条消息) Git 使用教程：最详细、最正宗手把手教学（万字长文） - 知乎</a></p>
+                <ul>
+<li>zap日志库</li>
+<li>viper</li>
+<li>项目分层理念</li>
+<li>开发脚手架</li>
+</ul>
+<h1 id="zap"><a href="#zap" class="headerlink" title="zap"></a>zap</h1><p>地址：<code>go.uber.org/zap</code></p>
+<p>zap提供两种日志：Logger &amp;&amp; surger Logger</p>
+<p><strong>Logger</strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs stylus">package <span class="hljs-selector-tag">main</span><br><br>import (<br>	<span class="hljs-string">&quot;net/http&quot;</span><br>	<span class="hljs-string">&quot;go.uber.org/zap&quot;</span><br>)<br><br><span class="hljs-selector-tag">var</span> logger *zap<span class="hljs-selector-class">.Logger</span> <span class="hljs-comment">//全局日志对象</span><br><br>func <span class="hljs-built_in">InitLogger</span>() &#123; <br>	logger, _ = zap<span class="hljs-selector-class">.NewProduction</span>()  <span class="hljs-comment">//初始化全局日志</span><br>&#125;<br><br>func <span class="hljs-selector-tag">main</span>() &#123;<br>	<span class="hljs-built_in">InitLogger</span>() <br>	defer logger<span class="hljs-selector-class">.Sync</span>()<br>	<span class="hljs-built_in">simpleHttpGet</span>(<span class="hljs-string">&quot;www.google.com&quot;</span>)<br>	<span class="hljs-built_in">simpleHttpGet</span>(<span class="hljs-string">&quot;http://www.google.com&quot;</span>)<br>&#125;<br>func <span class="hljs-built_in">simpleHttpGet</span>(url string) &#123;<br>	resp, err := http<span class="hljs-selector-class">.Get</span>(url)<br>	<span class="hljs-keyword">if</span> err != nil &#123;<br>		logger<span class="hljs-selector-class">.Error</span>(<br>			<span class="hljs-string">&quot;Error fetching url..&quot;</span>,<br>			zap<span class="hljs-selector-class">.String</span>(<span class="hljs-string">&quot;url&quot;</span>, url),<br>			zap<span class="hljs-selector-class">.Error</span>(err))<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		logger<span class="hljs-selector-class">.Info</span>(<span class="hljs-string">&quot;Success..&quot;</span>,<br>			zap<span class="hljs-selector-class">.String</span>(<span class="hljs-string">&quot;statusCode&quot;</span>, resp.Status),<br>			zap<span class="hljs-selector-class">.String</span>(<span class="hljs-string">&quot;url&quot;</span>, url))<br>		resp<span class="hljs-selector-class">.Body</span><span class="hljs-selector-class">.Close</span>()<br>	&#125;<br>&#125;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment">**/</span><br></code></pre></td></tr></table></figure>
 
+<p>推荐直接使用surger-logger</p>
+<h2 id="zap自定义日志库"><a href="#zap自定义日志库" class="headerlink" title="zap自定义日志库"></a>zap自定义日志库</h2><p>自定义日志配置，使用<code>zap.New(...)</code></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><span class="hljs-keyword">func</span> <span class="hljs-title function_">New</span><span class="hljs-params">(core zapcore.Core , )</span> *<span class="hljs-title function_">Logger</span><br></code></pre></td></tr></table></figure>
+<p><strong>zapcore.Core</strong><br>包含三个配置： Encoder(编码器，怎么写),WriteSyncer(日志路径),LogLevel(写入哪种级别的日志)</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs scss">func <span class="hljs-built_in">InitLogger</span>() &#123;<br>	WriteSyncer := <span class="hljs-built_in">getLogWriter</span>()<br>	Encoder := <span class="hljs-built_in">getEncoder</span>()<br>	core := zapcore.<span class="hljs-built_in">NewCore</span>(Encoder, WriteSyncer, zapcore.DebugLevel)<br>	logger = zap.<span class="hljs-built_in">New</span>(core)<br>	sugarlogger = logger.<span class="hljs-built_in">Sugar</span>()<br>&#125;<br>func <span class="hljs-built_in">getLogWriter</span>() zapcore<span class="hljs-selector-class">.WriteSyncer</span> &#123;<br>	file, _ := os.<span class="hljs-built_in">Create</span>(<span class="hljs-string">&quot;./test.log&quot;</span>)<br>	return zapcore.<span class="hljs-built_in">AddSync</span>(file)<br>&#125;<br>func <span class="hljs-built_in">getEncoder</span>() zapcore<span class="hljs-selector-class">.Encoder</span> &#123;<br>	return zapcore<span class="hljs-selector-class">.NewJSONEncoder</span>(zap.NewProductionEncoderConfig())<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h2 id="日志切割"><a href="#日志切割" class="headerlink" title="日志切割"></a>日志切割</h2><p>Lumberjack</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">github.com<span class="hljs-regexp">/natefinch/</span>lumberjack<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs dts">func getLogWriter() zapcore.<span class="hljs-title class_">WriteSyncer</span> <span class="hljs-punctuation">&#123;</span><br>	lumberjack := <span class="hljs-variable">&amp;lumberjack</span>.logger<span class="hljs-punctuation">&#123;</span><br><span class="hljs-symbol">	FileName:</span> <span class="hljs-string">&quot;./test.log&quot;</span>,<br><span class="hljs-symbol">	MaxSize:</span> <span class="hljs-number">10</span>, <span class="hljs-comment">//MB</span><br><span class="hljs-symbol">	MaxBackups:</span> <span class="hljs-number">5</span>, <span class="hljs-comment">//备份数量</span><br><span class="hljs-symbol">	MaxAge:</span> <span class="hljs-number">30</span>, <span class="hljs-comment">//days</span><br><span class="hljs-symbol">	Compress:</span> false, <span class="hljs-comment">//</span><br>	<span class="hljs-punctuation">&#125;</span><br>	return zapcore.AddSync(lumberjack)<br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<h1 id="Viper"><a href="#Viper" class="headerlink" title="Viper"></a>Viper</h1><p>Viper是go语言环境下的配置管理包</p>
+<p>地址 ： <code>github.com/spf13/viper</code></p>
+<h1 id="项目分层理念"><a href="#项目分层理念" class="headerlink" title="项目分层理念"></a>项目分层理念</h1>
                 
               </div>
             
@@ -400,7 +423,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%9D%82%E9%A1%B9/" class="category-chain-item">杂项</a>
+  <a href="/categories/Go/" class="category-chain-item">Go</a>
   
   
 
@@ -415,7 +438,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Git/" class="print-no-link">#Git</a>
+        <a href="/tags/go/" class="print-no-link">#go</a>
+      
+        <a href="/tags/%E7%BB%84%E4%BB%B6/" class="print-no-link">#组件</a>
+      
+        <a href="/tags/%E5%BC%80%E5%8F%91/" class="print-no-link">#开发</a>
       
     </div>
   
@@ -427,8 +454,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Git操作</div>
-      <div>http://example.com/2026/06/09/Git操作/</div>
+      <div>开发组件</div>
+      <div>http://example.com/2026/07/17/开发组件/</div>
     </div>
     <div class="license-meta">
       
@@ -440,7 +467,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年6月9日</div>
+          <div>2026年7月17日</div>
         </div>
       
       
@@ -472,15 +499,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/06/09/mit6.5840/" title="MIT 6.5840 分布式系统_lab1">
+                      <a href="/2026/07/17/Go%E6%A8%A1%E5%9D%97-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85%E5%8E%9F%E7%90%86%E4%B8%8E%E6%9E%84%E5%BB%BA/" title="Go模块-第三方包原理与构建">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MIT 6.5840 分布式系统_lab1</span>
+                        <span class="hidden-mobile">Go模块-第三方包原理与构建</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2026/06/10/Mit6.5840%20Lab3/" title="Mit6.5840 Lab3">
+                        <span class="hidden-mobile">Mit6.5840 Lab3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

@@ -19,27 +19,23 @@
   <meta name="author" content="YLH">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在 Go 里，第三方包是靠 Go Module管理的流程大致是：初始化模块 → 写代码导入包 → 自动&#x2F;手动下载 → 生成 go.mod &#x2F; go.sum 初始化模块go mod init 在一个项目目录里执行:  go mod init myproject 这会生成一个 go.mod 文件，里面记录：  模块名（module name） Go 版本 项目依赖的第三方包及其版本">
+    <meta name="description" content="数据建模与范式SQL语句基础语法索引MySQL调优EXPLAIN 看执行计划慢查询日志索引设计规范原理解析存储引擎层：InnoDB 的 B+树结构、聚簇索引、页&#x2F;区概念事务与并发层：ACID、隔离级别、MVCC、锁、redo&#x2F;undo&#x2F;binlog 日志">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go模块-第三方包原理与构建">
-<meta property="og:url" content="http://example.com/2026/07/17/Go%E6%A8%A1%E5%9D%97-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85%E5%8E%9F%E7%90%86%E4%B8%8E%E6%9E%84%E5%BB%BA/index.html">
+<meta property="og:title" content="mysql">
+<meta property="og:url" content="http://example.com/2026/08/04/mysql/index.html">
 <meta property="og:site_name" content="YLH&#39;s blogs">
-<meta property="og:description" content="在 Go 里，第三方包是靠 Go Module管理的流程大致是：初始化模块 → 写代码导入包 → 自动&#x2F;手动下载 → 生成 go.mod &#x2F; go.sum 初始化模块go mod init 在一个项目目录里执行:  go mod init myproject 这会生成一个 go.mod 文件，里面记录：  模块名（module name） Go 版本 项目依赖的第三方包及其版本">
+<meta property="og:description" content="数据建模与范式SQL语句基础语法索引MySQL调优EXPLAIN 看执行计划慢查询日志索引设计规范原理解析存储引擎层：InnoDB 的 B+树结构、聚簇索引、页&#x2F;区概念事务与并发层：ACID、隔离级别、MVCC、锁、redo&#x2F;undo&#x2F;binlog 日志">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-07-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-10T02:42:49.198Z">
+<meta property="article:published_time" content="2026-08-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-04T02:59:00.176Z">
 <meta property="article:author" content="YLH">
-<meta property="article:tag" content="go">
-<meta property="article:tag" content="mod">
-<meta property="article:tag" content="sun">
-<meta property="article:tag" content="tidy">
-<meta property="article:tag" content="初始化">
-<meta property="article:tag" content="模块">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Go模块-第三方包原理与构建 - YLH&#39;s blogs</title>
+  <title>mysql - YLH&#39;s blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -308,7 +304,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Go模块-第三方包原理与构建"></span>
+            <span id="subtitle" data-typed-text="mysql"></span>
           
         </div>
 
@@ -319,8 +315,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-07-17 00:00" pubdate>
-          2026年7月17日 凌晨
+        <time datetime="2026-08-04 00:00" pubdate>
+          2026年8月4日 凌晨
         </time>
       </span>
     
@@ -331,7 +327,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          418 字
+          138 字
         
       </span>
     
@@ -342,7 +338,7 @@
         
         
         
-          4 分钟
+          2 分钟
         
       </span>
     
@@ -381,41 +377,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Go模块-第三方包原理与构建</h1>
+            <h1 id="seo-header">mysql</h1>
             
             
               <div class="markdown-body">
                 
-                <p>在 Go 里，第三方包是靠 Go Module管理的<br>流程大致是：<br>初始化模块 → 写代码导入包 → 自动&#x2F;手动下载 → 生成 go.mod &#x2F; go.sum</p>
-<h2 id="初始化模块"><a href="#初始化模块" class="headerlink" title="初始化模块"></a>初始化模块</h2><p><code>go mod init</code></p>
-<p>在一个项目目录里执行:  go mod init myproject</p>
-<p>这会生成一个 go.mod 文件，里面记录：</p>
-<ul>
-<li>模块名（module name）</li>
-<li>Go 版本</li>
-<li>项目依赖的第三方包及其版本</li>
-</ul>
-<h2 id="go-mod-和-go-sum-的区别"><a href="#go-mod-和-go-sum-的区别" class="headerlink" title="go.mod 和 go.sum 的区别"></a>go.mod 和 go.sum 的区别</h2><table>
-<thead>
-<tr>
-<th>文件</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>go.mod</td>
-<td>声明模块名、Go 版本、直接依赖和间接依赖</td>
-</tr>
-<tr>
-<td>go.sum</td>
-<td>记录每个依赖包的加密校验和，保证下载的内容没被篡改</td>
-</tr>
-</tbody></table>
-<p> go.sum 不用手动改，它是自动生成的。两个文件都应该提交到 git。</p>
-<h2 id="怎么导入第三方包"><a href="#怎么导入第三方包" class="headerlink" title="怎么导入第三方包"></a>怎么导入第三方包</h2><p>直接在代码里 import，比如：</p>
-<p><code>import &quot;github.com/sirupsen/logrus&quot; </code></p>
-<p>接着运行：<br><code>go mod tidy</code>会做两件事：<br>把代码里实际 import 的包加入 go.mod<br>把没再用到的依赖从 go.mod 里删掉<br>同时更新 go.sum</p>
-
+                <h2 id="数据建模与范式"><a href="#数据建模与范式" class="headerlink" title="数据建模与范式"></a>数据建模与范式</h2><h2 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h2><h3 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h3><h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><h2 id="MySQL调优"><a href="#MySQL调优" class="headerlink" title="MySQL调优"></a>MySQL调优</h2><h3 id="EXPLAIN-看执行计划"><a href="#EXPLAIN-看执行计划" class="headerlink" title="EXPLAIN 看执行计划"></a>EXPLAIN 看执行计划</h3><h3 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h3><h3 id="索引设计规范"><a href="#索引设计规范" class="headerlink" title="索引设计规范"></a>索引设计规范</h3><h2 id="原理解析"><a href="#原理解析" class="headerlink" title="原理解析"></a>原理解析</h2><h3 id="存储引擎层：InnoDB-的-B-树结构、聚簇索引、页-区概念"><a href="#存储引擎层：InnoDB-的-B-树结构、聚簇索引、页-区概念" class="headerlink" title="存储引擎层：InnoDB 的 B+树结构、聚簇索引、页&#x2F;区概念"></a>存储引擎层：InnoDB 的 B+树结构、聚簇索引、页&#x2F;区概念</h3><h3 id="事务与并发层：ACID、隔离级别、MVCC、锁、redo-undo-binlog-日志"><a href="#事务与并发层：ACID、隔离级别、MVCC、锁、redo-undo-binlog-日志" class="headerlink" title="事务与并发层：ACID、隔离级别、MVCC、锁、redo&#x2F;undo&#x2F;binlog 日志"></a>事务与并发层：ACID、隔离级别、MVCC、锁、redo&#x2F;undo&#x2F;binlog 日志</h3>
                 
               </div>
             
@@ -423,42 +390,13 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Go/" class="category-chain-item">Go</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/go/" class="print-no-link">#go</a>
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#数据库</a>
       
-        <a href="/tags/%E6%A8%A1%E5%9D%97/" class="print-no-link">#模块</a>
-      
-        <a href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96/" class="print-no-link">#初始化</a>
-      
-        <a href="/tags/mod/" class="print-no-link">#mod</a>
-      
-        <a href="/tags/sun/" class="print-no-link">#sun</a>
-      
-        <a href="/tags/tidy/" class="print-no-link">#tidy</a>
+        <a href="/tags/mysql/" class="print-no-link">#mysql</a>
       
     </div>
   
@@ -470,8 +408,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Go模块-第三方包原理与构建</div>
-      <div>http://example.com/2026/07/17/Go模块-第三方包原理与构建/</div>
+      <div>mysql</div>
+      <div>http://example.com/2026/08/04/mysql/</div>
     </div>
     <div class="license-meta">
       
@@ -483,7 +421,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年7月17日</div>
+          <div>2026年8月4日</div>
         </div>
       
       
@@ -515,9 +453,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/07/17/go%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/" title="go连接数据库">
+                      <a href="/2026/08/05/Map-Reduce%E7%AE%97%E6%B3%95/" title="Map-Reduce算法">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">go连接数据库</span>
+                        <span class="hidden-mobile">Map-Reduce算法</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -525,8 +463,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/07/17/%E5%BC%80%E5%8F%91%E7%BB%84%E4%BB%B6/" title="开发组件">
-                        <span class="hidden-mobile">开发组件</span>
+                      <a href="/2026/07/17/go%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/" title="go连接数据库">
+                        <span class="hidden-mobile">go连接数据库</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
